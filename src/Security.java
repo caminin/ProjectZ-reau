@@ -33,6 +33,11 @@ public class Security {
         monLog.addHandler(ch);
     }
 
+    void testGenPublicKey() {
+        number_m=null;
+        number_e=null;
+    }
+
     void genPublicKey(){
         BigInteger number_p=BigInteger.probablePrime(700,new Random());
         BigInteger number_p_reduce=number_p.subtract(BigInteger.ONE);
@@ -55,26 +60,30 @@ public class Security {
     }
 
     public void genPrivateKey(){
-        if(number_m ==null && number_e == null){
+        if(number_m ==null || number_e == null){
             monLog.log(Level.ALL,"la clé privée doit être générée après la clé publique");
         }
         else{
             BigInteger number_r_0=number_e;
             BigInteger number_r_1=number_m;
+            BigInteger new_number_r_1;
             BigInteger temp_number_r_1;
 
             BigInteger number_u_0=BigInteger.ONE;
             BigInteger number_u_1=BigInteger.ZERO;
+            BigInteger new_number_u_1;
             BigInteger temp_number_u_1;
             do{
                 temp_number_r_1=number_r_1;//on save le next r
                 temp_number_u_1=number_u_1;
 
-                number_r_1=number_r_0.subtract(number_r_0.divide(number_r_1)).multiply(number_r_1);
-                number_r_0=temp_number_r_1;
+                new_number_r_1=number_r_0.subtract(number_r_0.divide(number_r_1)).multiply(number_r_1);
+                new_number_u_1=number_u_0.subtract(number_r_0.divide(number_r_1)).multiply(number_u_1);
 
-                number_u_1=number_u_0.subtract(number_r_0.divide(number_r_1)).multiply(number_u_1);
+                number_r_0=temp_number_r_1;
                 number_u_0=temp_number_u_1;
+                number_r_1=new_number_r_1;
+                number_u_1=new_number_u_1;
 
                 System.out.println(number_r_1.bitLength());
             }
@@ -90,7 +99,8 @@ public class Security {
 
     public static void main(String[] args) {
         Security se=new Security();
-        se.genPublicKey();
+        //se.genPublicKey();
+        se.testGenPublicKey();
         se.genPrivateKey();
     }
 }
