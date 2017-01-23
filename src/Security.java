@@ -72,7 +72,7 @@ public class Security {
             BigInteger number_u_0=BigInteger.ONE;
             BigInteger number_u_1=BigInteger.ZERO;
             BigInteger new_number_u_1;
-            BigInteger temp_number_u_1;
+            BigInteger temp_number_u_1;//plop
             do{
                 temp_number_r_1=number_r_1;//on save le next r
                 temp_number_u_1=number_u_1;
