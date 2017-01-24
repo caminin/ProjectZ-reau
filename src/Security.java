@@ -34,8 +34,8 @@ public class Security {
     }
 
     void testGenPublicKey() {
-        number_m=null;
-        number_e=null;
+        number_m=BigInteger.valueOf(4992);
+        number_e=BigInteger.valueOf(7);
     }
 
     void genPublicKey(){
@@ -74,22 +74,44 @@ public class Security {
             BigInteger new_number_u_1;
             BigInteger temp_number_u_1;//plop
             do{
+                System.out.println("R0 : "+number_r_0.toString()+"|R1 : "+number_r_1.toString()+"|u0 : "+number_u_0.toString()+"|U1 : "+number_u_1.toString());
                 temp_number_r_1=number_r_1;//on save le next r
                 temp_number_u_1=number_u_1;
 
-                new_number_r_1=number_r_0.subtract(number_r_0.divide(number_r_1)).multiply(number_r_1);
-                new_number_u_1=number_u_0.subtract(number_r_0.divide(number_r_1)).multiply(number_u_1);
+
+                new_number_r_1=number_r_0.subtract(number_r_0.divide(number_r_1).multiply(number_r_1));
+                new_number_u_1=number_u_0.subtract(number_r_0.divide(number_r_1).multiply(number_u_1));
 
                 number_r_0=temp_number_r_1;
                 number_u_0=temp_number_u_1;
                 number_r_1=new_number_r_1;
                 number_u_1=new_number_u_1;
 
-                System.out.println(number_r_1.bitLength());
             }
             while(!number_r_1.equals(BigInteger.ZERO));
-
             number_u=number_u_0;
+
+            //now you need to find out if U is perfect or if we need to fix it 2<u<m sinon -> u=u-k*m, k<0
+            long i=1;
+            BigInteger new_u;
+            do{
+                new_u=number_u;;
+                if(new_u.compareTo(number_m)==1){
+                    new_u=new_u.add(number_m.multiply(BigInteger.valueOf(i)));
+                    i++;
+                }
+                else if(new_u.compareTo(BigInteger.valueOf(2))==-1){
+                    new_u=new_u.add(number_m.multiply(BigInteger.valueOf(i)));
+                    i--;
+                }
+
+
+            }
+            while(new_u.compareTo(BigInteger.valueOf(2))==-1 || new_u.compareTo(number_m)==1);
+
+            number_u=new_u;
+
+
 
             System.out.println("number_u : "+number_u+"\nnumber_n : "+number_n);
 
@@ -99,8 +121,8 @@ public class Security {
 
     public static void main(String[] args) {
         Security se=new Security();
-        //se.genPublicKey();
-        se.testGenPublicKey();
+        se.genPublicKey();
+        //se.testGenPublicKey();
         se.genPrivateKey();
     }
 }
