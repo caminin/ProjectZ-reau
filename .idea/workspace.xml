@@ -4,7 +4,6 @@
     <list default="true" id="f30f47ee-c3ba-4d64-b33e-d91b9f8bda41" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProjectZereau/Security.class" afterPath="$PROJECT_DIR$/out/production/ProjectZereau/Security.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Security.java" afterPath="$PROJECT_DIR$/src/Security.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,24 +25,9 @@
       <file leaf-file-name="Security.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Security.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="76" column="0" lean-forward="true" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-              <folding>
-                <element signature="docComment;class#Security#0" expanded="false" />
-                <element signature="docComment;method#debug#0;class#Security#0" expanded="false" />
-                <element signature="method#debug#0;class#Security#0" expanded="false" />
-                <element signature="method#genKeys#0;class#Security#0" expanded="false" />
-                <element signature="docComment;method#genTestKeys#0;class#Security#0" expanded="false" />
-                <element signature="method#genTestKeys#0;class#Security#0" expanded="false" />
-                <element signature="docComment;method#testGenPublicKey#0;class#Security#0" expanded="false" />
-                <element signature="method#testGenPublicKey#0;class#Security#0" expanded="false" />
-                <element signature="docComment;method#checkTestGenKeys#0;class#Security#0" expanded="false" />
-                <element signature="method#checkTestGenKeys#0;class#Security#0" expanded="false" />
-                <element signature="docComment;method#genPublicKey#0;class#Security#0" expanded="false" />
-                <element signature="docComment;method#genPrivateKey#0;class#Security#0" expanded="false" />
-                <element signature="method#genPrivateKey#0;class#Security#0" expanded="false" />
-                <element signature="e#4748#4814#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="280">
+              <caret line="172" column="0" lean-forward="true" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -100,7 +84,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -129,8 +112,9 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -376,7 +360,8 @@
       <workItem from="1485166781503" duration="2395000" />
       <workItem from="1485258043875" duration="2012000" />
       <workItem from="1485435840416" duration="3920000" />
-      <workItem from="1485440065366" duration="63000" />
+      <workItem from="1485440065366" duration="90000" />
+      <workItem from="1485440298417" duration="282000" />
     </task>
     <task id="LOCAL-00001" summary="test plop">
       <created>1485169098185</created>
@@ -392,11 +377,18 @@
       <option name="project" value="LOCAL" />
       <updated>1485439742774</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Add comments et debug">
+      <created>1485440141216</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1485440141216</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8463000" />
+    <option name="totallyTimeSpent" value="8772000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1044" extended-state="6" />
@@ -409,7 +401,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31595746" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31595746" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14270833" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -449,22 +441,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="docComment;class#Security#0" expanded="false" />
-            <element signature="docComment;method#debug#0;class#Security#0" expanded="false" />
-            <element signature="method#debug#0;class#Security#0" expanded="false" />
-            <element signature="method#genKeys#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#genTestKeys#0;class#Security#0" expanded="false" />
-            <element signature="method#genTestKeys#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#testGenPublicKey#0;class#Security#0" expanded="false" />
-            <element signature="method#testGenPublicKey#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#checkTestGenKeys#0;class#Security#0" expanded="false" />
-            <element signature="method#checkTestGenKeys#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#genPublicKey#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#genPrivateKey#0;class#Security#0" expanded="false" />
-            <element signature="method#genPrivateKey#0;class#Security#0" expanded="false" />
-            <element signature="e#4748#4814#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -480,22 +457,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="docComment;class#Security#0" expanded="false" />
-            <element signature="docComment;method#debug#0;class#Security#0" expanded="false" />
-            <element signature="method#debug#0;class#Security#0" expanded="false" />
-            <element signature="method#genKeys#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#genTestKeys#0;class#Security#0" expanded="false" />
-            <element signature="method#genTestKeys#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#testGenPublicKey#0;class#Security#0" expanded="false" />
-            <element signature="method#testGenPublicKey#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#checkTestGenKeys#0;class#Security#0" expanded="false" />
-            <element signature="method#checkTestGenKeys#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#genPublicKey#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#genPrivateKey#0;class#Security#0" expanded="false" />
-            <element signature="method#genPrivateKey#0;class#Security#0" expanded="false" />
-            <element signature="e#4748#4814#0" expanded="false" />
-          </folding>
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Serveur.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Security.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -518,22 +496,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="docComment;class#Security#0" expanded="false" />
-            <element signature="docComment;method#debug#0;class#Security#0" expanded="false" />
-            <element signature="method#debug#0;class#Security#0" expanded="false" />
-            <element signature="method#genKeys#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#genTestKeys#0;class#Security#0" expanded="false" />
-            <element signature="method#genTestKeys#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#testGenPublicKey#0;class#Security#0" expanded="false" />
-            <element signature="method#testGenPublicKey#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#checkTestGenKeys#0;class#Security#0" expanded="false" />
-            <element signature="method#checkTestGenKeys#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#genPublicKey#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#genPrivateKey#0;class#Security#0" expanded="false" />
-            <element signature="method#genPrivateKey#0;class#Security#0" expanded="false" />
-            <element signature="e#4748#4814#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -562,24 +525,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Security.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="76" column="0" lean-forward="true" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-          <folding>
-            <element signature="docComment;class#Security#0" expanded="false" />
-            <element signature="docComment;method#debug#0;class#Security#0" expanded="false" />
-            <element signature="method#debug#0;class#Security#0" expanded="false" />
-            <element signature="method#genKeys#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#genTestKeys#0;class#Security#0" expanded="false" />
-            <element signature="method#genTestKeys#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#testGenPublicKey#0;class#Security#0" expanded="false" />
-            <element signature="method#testGenPublicKey#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#checkTestGenKeys#0;class#Security#0" expanded="false" />
-            <element signature="method#checkTestGenKeys#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#genPublicKey#0;class#Security#0" expanded="false" />
-            <element signature="docComment;method#genPrivateKey#0;class#Security#0" expanded="false" />
-            <element signature="method#genPrivateKey#0;class#Security#0" expanded="false" />
-            <element signature="e#4748#4814#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="280">
+          <caret line="172" column="0" lean-forward="true" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
