@@ -74,11 +74,11 @@ public class Security {
         //On utilise 1948 bits car cela fait un nombre plus grand que 500 chiffres
         BigInteger number_p=BigInteger.probablePrime(1948,new Random());
         BigInteger number_p_reduce=number_p.subtract(BigInteger.ONE);
-        System.out.println("first number found");
+        debug("first number found");
 
         BigInteger number_q=BigInteger.probablePrime(1948,new Random());
         BigInteger number_q_reduce=number_q.subtract(BigInteger.ONE);
-        System.out.println("second number found");
+        debug("second number found");
 
         number_n=number_p.multiply(number_q);
         number_m=number_p_reduce.multiply(number_q_reduce);
