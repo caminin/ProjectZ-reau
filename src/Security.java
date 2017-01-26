@@ -71,11 +71,12 @@ public class Security {
      * Permet de générer la clé publique
      */
     void genPublicKey(){
-        BigInteger number_p=BigInteger.probablePrime(700,new Random());
+        //On utilise 1948 bits car cela fait un nombre plus grand que 500 chiffres
+        BigInteger number_p=BigInteger.probablePrime(1948,new Random());
         BigInteger number_p_reduce=number_p.subtract(BigInteger.ONE);
         System.out.println("first number found");
 
-        BigInteger number_q=BigInteger.probablePrime(700,new Random());
+        BigInteger number_q=BigInteger.probablePrime(1948,new Random());
         BigInteger number_q_reduce=number_q.subtract(BigInteger.ONE);
         System.out.println("second number found");
 
