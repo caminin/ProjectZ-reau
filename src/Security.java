@@ -117,7 +117,7 @@ public class Security {
     public void genPrivateKey(){
         // Si jamais ces valeurs sont null, alors la clé publique n'a pas été générée donc pas de possibilités de faire la clé privée
         if(number_m ==null || number_e == null){
-            Log.debug("la clé privée doit être générée après la clé publique",DEBUG);
+            Log.debug("la clé privée doit être générée après la clé publiqu-e",DEBUG);
         }
         else{
             //On utilise la fonction définie par le prof,

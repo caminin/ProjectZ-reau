@@ -8,23 +8,22 @@ public class PublicKey extends Key {
         super(n1, n2);
     }
 
-    public String encryption(String message){
+    public BigInteger[] encryption(String message){
         byte[] in = message.getBytes();
-        byte[] out = new byte[in.length];
-        for(int i =0; i < in.length; i++){
-            out[i] = new BigInteger(in).pow(n2.intValue()).mod(n1).byteValueExact();
+        BigInteger[] out = new BigInteger[in.length];
+        byte[] temp = new byte[1];
+        for(int i = 0; i < in.length; i++){
+            temp[0] = in[i];
+            out[i] = new BigInteger(temp).pow(n2.intValue()).mod(n1);
         }
-        for(int i = 0; i < out.length; i++) {
-            System.out.print(out[i]+" ");
-        }
-        return message;
+//        for(int i = 0; i < out.length; i++) {
+//            System.out.print(out[i]+" ");
+//        }
+        return out;
     }
 
     public static void main(String[] args) {
         PublicKey pkey = new PublicKey(BigInteger.valueOf(5141), BigInteger.valueOf(7));
         pkey.encryption("bonjour");
     }
-
-
-
 }
