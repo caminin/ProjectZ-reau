@@ -1,10 +1,5 @@
-import sun.rmi.runtime.Log;
-
 import java.math.BigInteger;
 import java.util.Random;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by caminin on 18/01/17.
@@ -20,15 +15,39 @@ public class Security {
 
 
     /**
-     * N'affiche que si DEBUG est à vrai
-     * @param message
+     * Constructor, and generate they keys
      */
-    private void debug(String message){
-        if(DEBUG){
-            System.out.println(message);
-        }
+    public Security() {
+        genKeys();
     }
 
+    /**
+     * Returns the biginteger reprenseting the private key
+     * @return the private key, or null if there is no key
+     */
+    private BigInteger getPrivateKey(){
+        BigInteger res=number_u;
+        if(res==null) {
+            Log.debug("La private key est null",DEBUG);
+        }
+        return number_u;
+    }
+
+    /**
+     * Returns the biginteger reprenseting the public key
+     * @return the public key, or null if there is no key
+     */
+    private BigInteger getPublicKey(){
+        BigInteger res=number_m;
+        if(res==null) {
+            Log.debug("La public key est null",DEBUG);
+        }
+        return number_m;
+    }
+
+    /**
+     * Generate public and private keys
+     */
     public void genKeys(){
         genPublicKey();
         genPrivateKey();
@@ -59,13 +78,12 @@ public class Security {
      */
     void checkTestGenKeys(){
         if(number_u.compareTo(BigInteger.valueOf(4279))==0){
-            debug("La clé est bonne");
+            Log.debug("La clé est bonne",DEBUG);
         }
         else{
-            debug("La clé n'est pas bonne");
+            Log.debug("La clé n'est pas bonne",DEBUG);
         }
     }
-
 
     /**
      * Permet de générer la clé publique
@@ -74,11 +92,11 @@ public class Security {
         //On utilise 1948 bits car cela fait un nombre plus grand que 500 chiffres
         BigInteger number_p=BigInteger.probablePrime(1948,new Random());
         BigInteger number_p_reduce=number_p.subtract(BigInteger.ONE);
-        debug("first number found");
+        Log.debug("first number found",DEBUG);
 
         BigInteger number_q=BigInteger.probablePrime(1948,new Random());
         BigInteger number_q_reduce=number_q.subtract(BigInteger.ONE);
-        debug("second number found");
+        Log.debug("second number found",DEBUG);
 
         number_n=number_p.multiply(number_q);
         number_m=number_p_reduce.multiply(number_q_reduce);
@@ -89,7 +107,7 @@ public class Security {
         }
         while(!number_m.gcd(number_e).equals(BigInteger.ONE));
 
-        debug("firsnumber : "+number_p.toString()+"\nsecond number : "+number_q.toString()+"\nn key: "+number_n.toString()+"\n m key : "+number_m+"\n e : "+number_e);
+        Log.debug("firsnumber : "+number_p.toString()+"\nsecond number : "+number_q.toString()+"\nn key: "+number_n.toString()+"\n m key : "+number_m+"\n e : "+number_e,DEBUG);
     }
 
     /**
@@ -99,7 +117,7 @@ public class Security {
     public void genPrivateKey(){
         // Si jamais ces valeurs sont null, alors la clé publique n'a pas été générée donc pas de possibilités de faire la clé privée
         if(number_m ==null || number_e == null){
-            debug("la clé privée doit être générée après la clé publique");
+            Log.debug("la clé privée doit être générée après la clé publique",DEBUG);
         }
         else{
             //On utilise la fonction définie par le prof,
@@ -126,7 +144,7 @@ public class Security {
 
             //Début du calcul, fait un tour avanr de vérifier
             do{
-                debug("R0 : "+number_r_0.toString()+"|R1 : "+number_r_1.toString()+"|u0 : "+number_u_0.toString()+"|U1 : "+number_u_1.toString());
+                Log.debug("R0 : "+number_r_0.toString()+"|R1 : "+number_r_1.toString()+"|u0 : "+number_u_0.toString()+"|U1 : "+number_u_1.toString(),DEBUG);
                 temp_number_r_1=number_r_1;//on garde ri dans l'algo de coté
                 temp_number_u_1=number_u_1;
 
@@ -169,16 +187,13 @@ public class Security {
 
             number_u=new_u;
 
-            debug("number_u : "+number_u+"\nnumber_n : "+number_n);
+            Log.debug("number_u : "+number_u+"\nnumber_n : "+number_n,DEBUG);
         }
 
     }
 
     public static void main(String[] args) {
+        Security.DEBUG=true;
         Security se=new Security();
-        //se.genTestKeys();
-
-        //Security.DEBUG=true;//utile si on veut debug la version gen aléatoire
-        se.genKeys();
     }
 }
