@@ -1,7 +1,5 @@
 import java.io.IOException;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.ServerSocket;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -14,10 +12,13 @@ public class Serveur {
 	// contains all the clients connected to the server
 	private ArrayList<Echange> clients;
 
+	private String myIp="172.29.8.130 ";
+
 	public Serveur(){
 		try {
-			socket=new ServerSocket(7030,7030, InetAddress.getByName("192.168.99.169"));
+			socket=new ServerSocket(7030,7030, InetAddress.getByName(myIp));
 			clients=new ArrayList<Echange>();
+
 		} 
 		catch (IOException e) {
 		} 
@@ -57,6 +58,12 @@ public class Serveur {
 			}
 			
 		}	
+	}
+
+	private Client getNewClient(){
+
+
+		return null;
 	}
 	
 	public static void main(String args[]){

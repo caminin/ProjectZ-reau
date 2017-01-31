@@ -7,6 +7,7 @@ class Echange extends Thread {
 	private int idClient;
 	private String nameClient;
 	private Serveur serveur;
+	private Secured_Client secured_client;
 	
 	// input receiving messages from client
 	private ObjectInputStream in;
@@ -25,6 +26,17 @@ class Echange extends Thread {
 		}catch(Exception e){
 		}
 	}
+	public	Echange(Socket socket,int idClient,Secured_Client secured_client){
+		this.idClient=idClient;
+		this.secured_client=secured_client;
+		try{
+			this.in=new ObjectInputStream(socket.getInputStream());
+			this.out=new ObjectOutputStream(socket.getOutputStream());
+			nameClient=(String)in.readObject();
+			System.out.println("new connection client: "+nameClient);
+		}catch(Exception e){
+		}
+	}
 	
 	public void run(){
 		try {
@@ -35,7 +47,7 @@ class Echange extends Thread {
 				// display the message in the command prompt
 				System.out.println("Client "+nameClient+" sent: "+msg);
 				// call the server send method to send message to all the others clients
-				serveur.broadcast(idClient,nameClient,msg);
+				secured_client.broadcast(idClient,nameClient,msg);
 			}
 		}catch (ClassNotFoundException e1){
 

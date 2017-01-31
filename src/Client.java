@@ -32,6 +32,8 @@ public class Client extends Application {
 	private Socket socket;
 	private String id;
 
+	private String myIp="172.29.8.130";
+
 	// used to send messages to the server
 	private ObjectInputStream in=null;
 	
@@ -40,7 +42,7 @@ public class Client extends Application {
 	
 	public Client(){
 		try {
-			socket=new Socket("192.168.99.169",7030);
+			socket=new Socket(myIp,7030);
 			out=new ObjectOutputStream(socket.getOutputStream());
 			in=new ObjectInputStream(socket.getInputStream());
 		} 
