@@ -4,19 +4,20 @@ import java.math.BigInteger;
  * Created by alex on 26/01/17.
  */
 public class PrivateKey extends Key {
-    public PrivateKey(BigInteger n1, BigInteger n2) {
-        super(n1, n2);
+    public static boolean DEBUG = true;
+    private BigInteger u;
+
+    public PrivateKey(BigInteger n, BigInteger u) {
+        super(n);
+        this.u = u;
     }
 
-    public String encryption(BigInteger[] message){
+    public String decryption(BigInteger[] message){
         String out = "";
-        byte[] temp = new byte[1];
         for(int i = 0; i < message.length; i++){
-           out += new BigInteger(temp).pow(n2.intValue()).mod(n1).toString();
+            Log.debug(String.valueOf(Character.toChars(message[i].pow(u.intValue()).mod(n).intValue())),DEBUG);
+           out += Character.toChars(message[i].pow(u.intValue()).mod(n).intValue()).toString();
         }
-//        for(int i = 0; i < out.length; i++) {
-//            System.out.print(out[i]+" ");
-//        }
         return out;
     }
 

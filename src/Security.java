@@ -1,4 +1,5 @@
 import java.math.BigInteger;
+import java.security.*;
 import java.util.Random;
 
 /**
@@ -25,24 +26,22 @@ public class Security {
      * Returns the biginteger reprenseting the private key
      * @return the private key, or null if there is no key
      */
-    private BigInteger getPrivateKey(){
-        BigInteger res=number_u;
-        if(res==null) {
+    private PrivateKey getPrivateKey(){
+        if(number_u == null) {
             Log.debug("La private key est null",DEBUG);
         }
-        return number_u;
+        return new PrivateKey(number_n, number_u);
     }
 
     /**
      * Returns the biginteger reprenseting the public key
      * @return the public key, or null if there is no key
      */
-    private BigInteger getPublicKey(){
-        BigInteger res=number_m;
-        if(res==null) {
+    private PublicKey getPublicKey(){
+        if(number_m == null) {
             Log.debug("La public key est null",DEBUG);
         }
-        return number_m;
+        return new PublicKey(number_n, number_e);
     }
 
     /**
@@ -193,7 +192,31 @@ public class Security {
     }
 
     public static void main(String[] args) {
-        Security.DEBUG=true;
-        Security se=new Security();
+
+        // aliceKeys
+//        Security.DEBUG = false;
+//        Security alice = new Security();
+
+        /* Test 1 fonctionne correctement */
+//        long n = 5141;
+//        long e = 7;
+//        long u = 4279;
+//        PublicKey alice_publickey = new PublicKey(BigInteger.valueOf(n), BigInteger.valueOf(e));
+//        PrivateKey alice_privatekey = new PrivateKey(BigInteger.valueOf(n), BigInteger.valueOf(u));
+//
+//
+//        BigInteger[] message_crypte = alice_publickey.encryption("bonjour");
+//        String message_decrypte = alice_privatekey.decryption(message_crypte);
+
+//       System.out.println(message_decrypte);
+
+       /* Test 2 fonctionne */
+       Security secu = new Security();
+       PublicKey publicKey = secu.getPublicKey();
+       PrivateKey privateKey = secu.getPrivateKey();
+
+       BigInteger[] messageCrypte = publicKey.encryption("bonjour");
+       System.out.println(privateKey.decryption(messageCrypte));
+
     }
 }
