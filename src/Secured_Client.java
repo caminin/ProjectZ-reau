@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -46,7 +47,7 @@ public class Secured_Client extends Application {
 
     private String id;
 
-    private String myIp="192.168.43.213";
+    private String myIp="172.29.20.197";
 
     // used to send messages to the server
     private ObjectInputStream in=null;
@@ -56,7 +57,7 @@ public class Secured_Client extends Application {
 
     public Secured_Client(){
         try {
-            server_socket=new ServerSocket(7030,7030, InetAddress.getByName(myIp));
+            server_socket=new ServerSocket(7031,7031, InetAddress.getByName(myIp));
             launch();
         }
         catch (Exception e) {
@@ -85,6 +86,12 @@ public class Secured_Client extends Application {
     }
 
     public void launch(){
+        try {
+            InetAddress IP=InetAddress.getLocalHost();
+            System.out.println("IP of my system is := "+IP.getHostAddress());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
         Echange echange;
         SendIp send_ip=new SendIp();
         send_ip.start();
@@ -103,7 +110,7 @@ public class Secured_Client extends Application {
 
     public void connect(String IP){
         try {
-            client_socket=new Socket(IP,7030);
+            client_socket=new Socket(IP,7031);
             out=new ObjectOutputStream(client_socket.getOutputStream());
             in=new ObjectInputStream(client_socket.getInputStream());
         } catch (IOException e) {
@@ -186,10 +193,10 @@ public class Secured_Client extends Application {
         public ReceiveIP(Secured_Client client) {
             this.client=client;
             try {
-                socket = new DatagramSocket(8888, InetAddress.getByName("0.0.0.0"));
+                socket = new DatagramSocket(7030, InetAddress.getByName(myIp));
                 socket.setBroadcast(true);
             } catch (Exception e){
-
+                e.printStackTrace();
             }
 
         }
@@ -204,7 +211,7 @@ public class Secured_Client extends Application {
                 socket.receive(packet);
 
                 //Packet received
-                System.out.println(getClass().getName() + ">>>Discovery packet received from: " + packet.getAddress().getHostAddress());
+                //System.out.println(getClass().getName() + ">>>Discovery packet received from: " + packet.getAddress().getHostAddress());
                 System.out.println(getClass().getName() + ">>>Packet received; data: " + new String(packet.getData()));
 
                 //See if the packet holds the right command (message)
@@ -213,8 +220,8 @@ public class Secured_Client extends Application {
                     message = message.replace("IP:", "");
                     client.connect(message);
                 }
-            } catch (IOException ex) {
-
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -230,12 +237,15 @@ public class Secured_Client extends Application {
                     byte[] sendData = ("IP:"+myIp).getBytes();
 
                     //Try the 255.255.255.255 first
-                    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), 8888);
+                    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), 7030);
                     c.send(sendPacket);
                     System.out.println(getClass().getName() + ">>> Request packet sent to: 255.255.255.255 (DEFAULT)");
+
                     this.sleep(2000);
                 }
-                catch (Exception e) {}
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
