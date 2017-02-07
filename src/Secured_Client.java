@@ -41,13 +41,9 @@ public class Secured_Client extends Application {
     private Message message;
 
     public Secured_Client(){
-        try {
-
-            launch();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        message=new Message();
+        message.receive(this);
+        //TODO create the private and public key
     }
 
 
@@ -64,17 +60,20 @@ public class Secured_Client extends Application {
         }
     }
 
-    public void launch(){
-        message=new Message();
-        message.receive(this);
-    }
-
     public void sendMessage(String message){
         this.message.send(message);
     }
 
     public void handleMessage(String message){
-        msgHistory.appendText(message+"\n");
+        if(message.contains(":init://")){
+            String public_key=message.replace(":init://","");//TODO store the public key
+        }
+        else{
+            String name=message.substring(0,message.indexOf(":"));
+            String crypted_message=message.substring(message.indexOf(":")+1);//TODO uncrypt the message
+            String uncrypted_message="";
+            msgHistory.appendText(name+":"+uncrypted_message+"\n");
+        }
 
     }
 
@@ -101,7 +100,7 @@ public class Secured_Client extends Application {
             public void handle(ActionEvent event){
                 if(nameField.getText()!= null) {
                     id = nameField.getText();
-                    sendMessage(id);
+                    sendMessage(":init://"+id+":"+"public key");//TODO Add the public key
                     mainStage.setScene(chatScene);
                 }
             }
@@ -112,7 +111,7 @@ public class Secured_Client extends Application {
             public void handle(ActionEvent event) {
                 String message = msgField.getText();
                 if(!message.isEmpty()){
-                    sendMessage(message);
+                    sendMessage(id+":"+message);//TODO crypter le message
                     msgHistory.appendText("me :"+message+"\n");
                 }
                 msgField.setText("");
