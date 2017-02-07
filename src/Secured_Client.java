@@ -30,8 +30,7 @@ public class Secured_Client extends Application {
     private Scene nameScene;
     private Scene chatScene;
 
-    @FXML
-    private TextField nameField;
+    @FXML private TextField nameField;
     @FXML private TextArea msgHistory;
     @FXML private TextField msgField;
     @FXML private Button nameButton;

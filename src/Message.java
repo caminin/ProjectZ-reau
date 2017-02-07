@@ -80,9 +80,9 @@ public class Message {
                             Log.debug("UDP reçu",debug);
                             text = new String(message, 0, p.getLength());
                             client.handleMessage(text+"\n");
-                        } catch (SocketTimeoutException | NullPointerException e) {
-                            e.printStackTrace();
-                            Thread.sleep(5000);
+                        } catch (Exception e) {
+                            Log.debug("socket fermé",debug);
+                            Thread.sleep(10000);
                         }
                     }
                 } catch (Exception e) {
