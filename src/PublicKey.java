@@ -6,6 +6,11 @@ import java.math.BigInteger;
 public class PublicKey extends Key {
 
     public static boolean DEBUG = true;
+
+    public BigInteger getE() {
+        return e;
+    }
+
     private BigInteger e;
 
     public PublicKey(BigInteger n, BigInteger e) {

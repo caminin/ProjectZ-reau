@@ -26,7 +26,7 @@ public class Security {
      * Returns the biginteger reprenseting the private key
      * @return the private key, or null if there is no key
      */
-    private PrivateKey getPrivateKey(){
+    public PrivateKey getPrivateKey(){
         if(number_u == null) {
             Log.debug("La private key est null",DEBUG);
         }
@@ -37,7 +37,7 @@ public class Security {
      * Returns the biginteger reprenseting the public key
      * @return the public key, or null if there is no key
      */
-    private PublicKey getPublicKey(){
+    public PublicKey getPublicKey(){
         if(number_m == null) {
             Log.debug("La public key est null",DEBUG);
         }
