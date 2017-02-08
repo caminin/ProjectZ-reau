@@ -35,14 +35,16 @@ public class PublicKey extends Key {
         return out;
     }
 
-    public String BigIntergerToString(BigInteger plop[]){
+    public static String BigIntergerToString(BigInteger plop[]){
         String res="";
         for(int i=0;i<plop.length;i++){
             res+=plop[i].toString();
+            res=res.trim();
             if(i<(plop.length-1)){
                 res+="/";
             }
         }
+        res=res.trim();
         return res;
     }
 

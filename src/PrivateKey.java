@@ -22,12 +22,36 @@ public class PrivateKey extends Key {
         return out;
     }
 
-    public BigInteger[] splitString(String bigIntegerArray){
+    /**
+     * Prend un string contenant un tableau de biuginteger et le transforme en tableau de biginteger
+     * @param bigIntegerArray le tableau mais en string
+     * @return le tableau de BigInteger
+     */
+    public static BigInteger[] splitString(String bigIntegerArray){
         String stringArray[]=bigIntegerArray.split("/") ;
         BigInteger res[]=new BigInteger[stringArray.length];
         for(int i=0;i<res.length;i++){
-            res[i]=new BigInteger(stringArray[i]);
+            res[i]=new BigInteger(stringArray[i].trim());
         }
         return res;
     }
+
+
+    public static boolean isEncrypted(String bigIntegerArray){
+        String stringArray[]=bigIntegerArray.split("/") ;
+        BigInteger res;
+        boolean isEncrypted=true;
+        for(int i=0;i<stringArray.length && i<2;i++){
+            try{
+                res=new BigInteger(stringArray[i].trim());
+            }
+            catch (Exception e){
+                isEncrypted=false;
+                Log.debug("le message n'est pas crypté",DEBUG);
+            }
+        }
+        return isEncrypted;
+    }
+
+
 }

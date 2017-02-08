@@ -75,16 +75,30 @@ public class Secured_Client extends Application {
     public void handleMessage(String message){
         /* réception du message d'initialisation contenant la clé publique de l'interlocuteur */
         if(message.contains(":init://")){
-            String stringKey = message.replace(":init://","");
+            String name_and_stringKey = message.replace(":init://","");
+            String array_string[]=name_and_stringKey.split(":");
+            String stringKey=array_string[1];
             String[] splitedKey = stringKey.split("/");
-            publicKey = new PublicKey(new BigInteger(splitedKey[0]), new BigInteger(splitedKey[1]));
+            for(String s:splitedKey){
+                Log.debug("voici une élément :"+s+"|",debug);
+                s=s.trim();
+                Log.debug("voici une élément :"+s+"|",debug);
+            }
+            publicKey = new PublicKey(new BigInteger(splitedKey[0].trim()), new BigInteger(splitedKey[1].trim()));
         }
 
         /* décrypte les autres messages et les affiche */
         else{
             String name=message.substring(0,message.indexOf(":"));
-            String crypted_message=message.substring(message.indexOf(":")+1);//TODO uncrypt the message
-            String uncrypted_message="";
+            String crypted_message=message.substring(message.indexOf(":")+1);
+            String uncrypted_message;
+            if(PrivateKey.isEncrypted(crypted_message)){
+                uncrypted_message= privateKey.decryption(PrivateKey.splitString(crypted_message));
+            }
+            else{//TODO gérer le cas ou la première personne n'a pas eu la clé au départ et il l'a demande même si ça a l'air de marcher
+                uncrypted_message=crypted_message;
+            }
+
             msgHistory.appendText(name+":"+uncrypted_message+"\n");
         }
 
@@ -133,8 +147,12 @@ public class Secured_Client extends Application {
             public void handle(ActionEvent event) {
                 String message = msgField.getText();
                 if(!message.isEmpty()){
-                    sendMessage(id+":"+message);//TODO crypter le message
                     msgHistory.appendText("me :"+message+"\n");
+                    if(publicKey!=null){
+                        message=PublicKey.BigIntergerToString(publicKey.encryption(message));
+                    }
+                    sendMessage(id+":"+message);
+
                 }
                 msgField.setText("");
             }

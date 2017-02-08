@@ -14,6 +14,8 @@ public class Security {
     private BigInteger number_n=null;
     private BigInteger number_u=null;
 
+    private int number_bits_key=1984;
+
 
     /**
      * Constructor, and generate they keys
@@ -89,11 +91,11 @@ public class Security {
      */
     void genPublicKey(){
         //On utilise 1948 bits car cela fait un nombre plus grand que 500 chiffres
-        BigInteger number_p=BigInteger.probablePrime(1948,new Random());
+        BigInteger number_p=BigInteger.probablePrime(number_bits_key,new Random());
         BigInteger number_p_reduce=number_p.subtract(BigInteger.ONE);
         Log.debug("first number found",DEBUG);
 
-        BigInteger number_q=BigInteger.probablePrime(1948,new Random());
+        BigInteger number_q=BigInteger.probablePrime(number_bits_key,new Random());
         BigInteger number_q_reduce=number_q.subtract(BigInteger.ONE);
         Log.debug("second number found",DEBUG);
 
