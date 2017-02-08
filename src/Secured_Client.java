@@ -15,6 +15,7 @@ import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.math.BigInteger;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,6 +31,10 @@ public class Secured_Client extends Application {
     private Scene nameScene;
     private Scene chatScene;
 
+    // public and private key to secure communication with the other client
+    private PrivateKey privateKey; // decrypt messages received
+    private PublicKey publicKey; // encrypt messages sent
+
     @FXML
     private TextField nameField;
     @FXML private TextArea msgHistory;
@@ -43,6 +48,7 @@ public class Secured_Client extends Application {
     public Secured_Client(){
         message=new Message();
         message.receive(this);
+
         //TODO create the private and public key
     }
 
@@ -65,14 +71,21 @@ public class Secured_Client extends Application {
     }
 
     public void handleMessage(String message){
+        // message d'initialisation de la connexion, contient la clé publique de l'interlocuteur
         if(message.contains(":init://")){
-            String public_key=message.replace(":init://","");//TODO store the public key
+            String initMessage = message.replace(":init://","");//TODO splt the two biginteger and store the public key
+            String[] stringKey = initMessage.split("/");
+            publicKey = new PublicKey(new BigInteger(stringKey[0]), new BigInteger(stringKey[1]));
         }
-        else{
-            String name=message.substring(0,message.indexOf(":"));
-            String crypted_message=message.substring(message.indexOf(":")+1);//TODO uncrypt the message
-            String uncrypted_message="";
-            msgHistory.appendText(name+":"+uncrypted_message+"\n");
+
+        // Decryptage et affichage du message envoyé par l'interlocuteur
+        else{//message dans le chat, avec un truc crypté
+            String name = message.substring(0,message.indexOf(":"));
+            String crypted_message = message.substring(message.indexOf(":")+1);//TODO uncrypt the message
+//            for(int i = 0; i < crypted_message.)
+//                String decrypted_message = privateKey.decryption();
+//
+//            msgHistory.appendText(name+":"+decrypted_message+"\n");
         }
 
     }
@@ -100,7 +113,10 @@ public class Secured_Client extends Application {
             public void handle(ActionEvent event){
                 if(nameField.getText()!= null) {
                     id = nameField.getText();
-                    sendMessage(":init://"+id+":"+"public key");//TODO Add the public key
+                    Security security = new Security();
+                    security.genKeys();
+                    privateKey = security.getPrivateKey();
+                    sendMessage(":init://"+id+":"+security.getPublicKey().getN()+"/"+security.getPublicKey().getE());//TODO Add the public key
                     mainStage.setScene(chatScene);
                 }
             }
@@ -111,7 +127,7 @@ public class Secured_Client extends Application {
             public void handle(ActionEvent event) {
                 String message = msgField.getText();
                 if(!message.isEmpty()){
-                    sendMessage(id+":"+message);//TODO crypter le message
+                    sendMessage(id+":"+publicKey.encryption(message).toString());//TODO crypter message, /!\ envoyer un tableau de BigIntegers
                     msgHistory.appendText("me :"+message+"\n");
                 }
                 msgField.setText("");
