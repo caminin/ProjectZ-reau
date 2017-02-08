@@ -21,4 +21,13 @@ public class PrivateKey extends Key {
         System.out.println(out);
         return out;
     }
+
+    public BigInteger[] splitString(String bigIntegerArray){
+        String stringArray[]=bigIntegerArray.split("/") ;
+        BigInteger res[]=new BigInteger[stringArray.length];
+        for(int i=0;i<res.length;i++){
+            res[i]=new BigInteger(stringArray[i]);
+        }
+        return res;
+    }
 }

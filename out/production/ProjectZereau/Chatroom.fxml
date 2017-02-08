@@ -18,10 +18,13 @@
 	/>
 	<HBox>
 		<TextField
-			fx:id="msgField" />
+			fx:id="msgField"
+			HBox.hgrow="ALWAYS"
+		/>
 		<Button
 			text="envoyer"
-			fx:id="sendButton" />
+			fx:id="sendButton"
+		/>
 	</HBox>
 </VBox>
 

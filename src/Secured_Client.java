@@ -20,6 +20,8 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
+
 /**
  * Created by caminin on 31/01/17.
  */
@@ -31,10 +33,6 @@ public class Secured_Client extends Application {
     private Scene nameScene;
     private Scene chatScene;
 
-    // public and private key to secure communication with the other client
-    private PrivateKey privateKey; // decrypt messages received
-    private PublicKey publicKey; // encrypt messages sent
-
     @FXML
     private TextField nameField;
     @FXML private TextArea msgHistory;
@@ -45,14 +43,14 @@ public class Secured_Client extends Application {
     private String id;
     private Message message;
 
+    private PublicKey publicKey;   // clé publique de l'interlocuteur utilisée pour crypter les messages que l'on envoit
+    private PrivateKey privateKey; // clé privé servant à décrypter les messages envoyés par l'interlocuteur
+
+
     public Secured_Client(){
         message=new Message();
         message.receive(this);
-
-        //TODO create the private and public key
     }
-
-
 
     public static void main(String args[]){
         Application.launch(args);
@@ -70,26 +68,33 @@ public class Secured_Client extends Application {
         this.message.send(message);
     }
 
+    /**
+     * Réceptionne l'ensemble des messages reçus et les traite
+     * @param message, chaine de caractères contenant un message reçu
+     */
     public void handleMessage(String message){
-        // message d'initialisation de la connexion, contient la clé publique de l'interlocuteur
+        /* réception du message d'initialisation contenant la clé publique de l'interlocuteur */
         if(message.contains(":init://")){
-            String initMessage = message.replace(":init://","");//TODO splt the two biginteger and store the public key
-            String[] stringKey = initMessage.split("/");
-            publicKey = new PublicKey(new BigInteger(stringKey[0]), new BigInteger(stringKey[1]));
+            String stringKey = message.replace(":init://","");
+            String[] splitedKey = stringKey.split("/");
+            publicKey = new PublicKey(new BigInteger(splitedKey[0]), new BigInteger(splitedKey[1]));
         }
 
-        // Decryptage et affichage du message envoyé par l'interlocuteur
-        else{//message dans le chat, avec un truc crypté
-            String name = message.substring(0,message.indexOf(":"));
-            String crypted_message = message.substring(message.indexOf(":")+1);//TODO uncrypt the message
-//            for(int i = 0; i < crypted_message.)
-//                String decrypted_message = privateKey.decryption();
-//
-//            msgHistory.appendText(name+":"+decrypted_message+"\n");
+        /* décrypte les autres messages et les affiche */
+        else{
+            String name=message.substring(0,message.indexOf(":"));
+            String crypted_message=message.substring(message.indexOf(":")+1);//TODO uncrypt the message
+            String uncrypted_message="";
+            msgHistory.appendText(name+":"+uncrypted_message+"\n");
         }
 
     }
 
+    /**
+     * Créé l'interface et implémente les handler
+     * @param mainStage, fenêtre principale
+     * @throws Exception
+     */
     @Override
     public void start(final Stage mainStage) throws Exception {
 
@@ -111,12 +116,13 @@ public class Secured_Client extends Application {
 
         nameButton.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent event){
+                /* génération des clés et envoie du message d'initilisation contenant la clé publique */
                 if(nameField.getText()!= null) {
                     id = nameField.getText();
                     Security security = new Security();
-                    security.genKeys();
-                    privateKey = security.getPrivateKey();
-                    sendMessage(":init://"+id+":"+security.getPublicKey().getN()+"/"+security.getPublicKey().getE());//TODO Add the public key
+                    security.genKeys();privateKey = security.getPrivateKey();
+
+                    sendMessage(":init://"+id+":"+security.getPublicKey().getN().toString()+"/"+security.getPublicKey().getE());
                     mainStage.setScene(chatScene);
                 }
             }
@@ -127,13 +133,12 @@ public class Secured_Client extends Application {
             public void handle(ActionEvent event) {
                 String message = msgField.getText();
                 if(!message.isEmpty()){
-                    sendMessage(id+":"+publicKey.encryption(message).toString());//TODO crypter message, /!\ envoyer un tableau de BigIntegers
+                    sendMessage(id+":"+message);//TODO crypter le message
                     msgHistory.appendText("me :"+message+"\n");
                 }
                 msgField.setText("");
             }
         });
-
     }
 
 
