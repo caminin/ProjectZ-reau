@@ -30,6 +30,17 @@ public class PublicKey extends Key {
         return out;
     }
 
+    public String BigIntergerToString(BigInteger plop[]){
+        String res="";
+        for(int i=0;i<plop.length;i++){
+            res+=plop[i].toString();
+            if(i<(plop.length-1)){
+                res+="/";
+            }
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         PublicKey pkey = new PublicKey(BigInteger.valueOf(5141), BigInteger.valueOf(7));
         pkey.encryption("bonjour");
