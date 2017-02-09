@@ -10,15 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.math.BigInteger;
-import java.net.*;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
 
@@ -40,8 +33,9 @@ public class Secured_Client extends Application {
     @FXML private Button nameButton;
     @FXML private Button sendButton;
 
-    private String id;
+    private String client_name;
     private Message message;
+    private String myIp="localhost";
 
     private PublicKey publicKey;   // clé publique de l'interlocuteur utilisée pour crypter les messages que l'on envoit
     private PrivateKey privateKey; // clé privé servant à décrypter les messages envoyés par l'interlocuteur
@@ -58,21 +52,21 @@ public class Secured_Client extends Application {
 
     @FXML protected void handleSendButton(ActionEvent event){
         if(nameField.getText()!= null) {
-            id = nameField.getText();
-            sendMessage(id);
+            client_name = nameField.getText();
+            sendMessage(client_name);
             mainStage.setScene(chatScene);
         }
     }
 
     public void sendMessage(String message){
-        this.message.send(message);
+        this.message.send(message,myIp);
     }
 
     public void sendPublicKey(){
         Security security = new Security();
         security.genKeys();
         privateKey = security.getPrivateKey();
-        sendMessage(":init://"+id+":"+security.getPublicKey().getN().toString()+"/"+security.getPublicKey().getE());
+        sendMessage(":init://"+ client_name +":"+security.getPublicKey().getN().toString()+"/"+security.getPublicKey().getE());
     }
 
     public void askPublicKey(){
@@ -144,7 +138,7 @@ public class Secured_Client extends Application {
             public void handle(ActionEvent event){
                 /* génération des clés et envoie du message d'initilisation contenant la clé publique */
                 if(nameField.getText()!= null) {
-                    id = nameField.getText();
+                    client_name = nameField.getText();
                     sendPublicKey();
 
                     mainStage.setScene(chatScene);
@@ -157,20 +151,23 @@ public class Secured_Client extends Application {
             public void handle(ActionEvent event) {
                 String message = msgField.getText();
                 if(!message.isEmpty()){
-                    msgHistory.appendText("me :"+message+"\n");
                     if(publicKey!=null){
+                        msgHistory.appendText("me :"+message+"\n");
                         message=PublicKey.BigIntergerToString(publicKey.encryption(message));
                         msgField.setText("");
-                        sendMessage(id+":"+message);
+                        sendMessage(client_name +":"+message);
                     }
                     else{//Si on n'a pas la clé, on la demande
                         askPublicKey();
+                        //TODO tell the man that you can't send a message, so he needs to wait (add a while(publickey==null){Thread.sleep(1000);}) ?
                     }
 
                 }
 
             }
         });
+
+        //TODO Handle a way to change the ip adress
     }
 
 

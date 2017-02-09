@@ -28,8 +28,8 @@ public class Message {
         }
     }
 
-    public void send(String message){
-        SendThread send=new SendThread(message);
+    public void send(String message,String ip){
+        SendThread send=new SendThread(message,ip);
         send.start();
     }
 
@@ -40,14 +40,16 @@ public class Message {
 
     public class SendThread extends Thread{
         private String message;
-        public SendThread(String message){
+        private String ip;
+        public SendThread(String message,String ip){
             this.message=message;
+            this.ip=ip;
 
         }
         public void run(){
             try {
                 InetAddress local = null;
-                local = InetAddress.getByName("localhost");
+                local = InetAddress.getByName(ip);
                 int msg_length = message.length();
                 byte[] message_byte = message.getBytes();
                 DatagramPacket p = new DatagramPacket(message_byte, msg_length, local, port2);
