@@ -5,7 +5,7 @@ import java.math.BigInteger;
  */
 public class PublicKey extends Key {
 
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
 
     public BigInteger getE() {
         return e;

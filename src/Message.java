@@ -71,14 +71,13 @@ public class Message {
             while (true) {
                 String text;
 
-                byte[] message = new byte[10000];
+                byte[] message = new byte[100000];
                 DatagramPacket p = new DatagramPacket(message, message.length);
                 try {
                     while (true) {
                         try {
                             mDataGramSocket.receive(p);
                             Log.debug("UDP reçu",debug);
-                            Log.debug(""+p.getLength(),debug);
                             text = new String(message, 0, p.getLength());
                             client.handleMessage(text+"\n");
                         } catch (Exception e) {

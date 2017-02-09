@@ -4,7 +4,7 @@ import java.math.BigInteger;
  * Created by alex on 26/01/17.
  */
 public class PrivateKey extends Key {
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
     private BigInteger u;
 
     public PrivateKey(BigInteger n, BigInteger u) {

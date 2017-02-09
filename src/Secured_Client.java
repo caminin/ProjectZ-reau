@@ -68,6 +68,17 @@ public class Secured_Client extends Application {
         this.message.send(message);
     }
 
+    public void sendPublicKey(){
+        Security security = new Security();
+        security.genKeys();
+        privateKey = security.getPrivateKey();
+        sendMessage(":init://"+id+":"+security.getPublicKey().getN().toString()+"/"+security.getPublicKey().getE());
+    }
+
+    public void askPublicKey(){
+        sendMessage(":ask://");
+    }
+
     /**
      * Réceptionne l'ensemble des messages reçus et les traite
      * @param message, chaine de caractères contenant un message reçu
@@ -79,12 +90,11 @@ public class Secured_Client extends Application {
             String array_string[]=name_and_stringKey.split(":");
             String stringKey=array_string[1];
             String[] splitedKey = stringKey.split("/");
-            for(String s:splitedKey){
-                Log.debug("voici une élément :"+s+"|",debug);
-                s=s.trim();
-                Log.debug("voici une élément :"+s+"|",debug);
-            }
             publicKey = new PublicKey(new BigInteger(splitedKey[0].trim()), new BigInteger(splitedKey[1].trim()));
+        }
+        else if(message.contains(":ask://")){
+            sendPublicKey();
+            Log.debug("Je lui envoie ma public key",debug);
         }
 
         /* décrypte les autres messages et les affiche */
@@ -95,7 +105,9 @@ public class Secured_Client extends Application {
             if(PrivateKey.isEncrypted(crypted_message)){
                 uncrypted_message= privateKey.decryption(PrivateKey.splitString(crypted_message));
             }
-            else{//TODO gérer le cas ou la première personne n'a pas eu la clé au départ et il l'a demande même si ça a l'air de marcher
+            else{
+                Log.debug("le message n'est pas encrypté",debug);
+                sendPublicKey();
                 uncrypted_message=crypted_message;
             }
 
@@ -133,10 +145,8 @@ public class Secured_Client extends Application {
                 /* génération des clés et envoie du message d'initilisation contenant la clé publique */
                 if(nameField.getText()!= null) {
                     id = nameField.getText();
-                    Security security = new Security();
-                    security.genKeys();privateKey = security.getPrivateKey();
+                    sendPublicKey();
 
-                    sendMessage(":init://"+id+":"+security.getPublicKey().getN().toString()+"/"+security.getPublicKey().getE());
                     mainStage.setScene(chatScene);
                 }
             }
@@ -150,11 +160,15 @@ public class Secured_Client extends Application {
                     msgHistory.appendText("me :"+message+"\n");
                     if(publicKey!=null){
                         message=PublicKey.BigIntergerToString(publicKey.encryption(message));
+                        msgField.setText("");
+                        sendMessage(id+":"+message);
                     }
-                    sendMessage(id+":"+message);
+                    else{//Si on n'a pas la clé, on la demande
+                        askPublicKey();
+                    }
 
                 }
-                msgField.setText("");
+
             }
         });
     }
