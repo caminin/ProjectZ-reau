@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -32,6 +33,8 @@ public class Secured_Client extends Application {
     @FXML private TextField msgField;
     @FXML private Button nameButton;
     @FXML private Button sendButton;
+    @FXML private CheckBox localCheck;
+    @FXML private TextField ipField;
 
     private String client_name;
     private Message message;
@@ -122,11 +125,13 @@ public class Secured_Client extends Application {
         Scene nameScene = new Scene((Parent) FXMLLoader.load(getClass().getResource("enterName.fxml")));
         final Scene chatScene = new Scene((Parent) FXMLLoader.load(getClass().getResource("Chatroom.fxml")));
         mainStage.setScene(nameScene);
-
+        mainStage.sizeToScene();
         mainStage.show();
 
         nameField = (TextField)nameScene.lookup("#nameField");
         nameButton = (Button)nameScene.lookup("#nameButton");
+        localCheck = (CheckBox)nameScene.lookup("#local");
+        ipField = (TextField)nameScene.lookup("#ipField");
 
         msgHistory  = (TextArea)chatScene.lookup("#msgHistory");
         msgField = (TextField)chatScene.lookup("#msgField");
@@ -139,13 +144,13 @@ public class Secured_Client extends Application {
                 /* génération des clés et envoie du message d'initilisation contenant la clé publique */
                 if(nameField.getText()!= null) {
                     client_name = nameField.getText();
+                    myIp = ipField.getText().toString();
                     sendPublicKey();
 
                     mainStage.setScene(chatScene);
                 }
             }
         });
-
 
         sendButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -164,6 +169,15 @@ public class Secured_Client extends Application {
 
                 }
 
+            }
+        });
+
+        localCheck.setOnAction((event)->{
+            if(localCheck.isSelected()){
+                ipField.setText("localhost");
+            }
+            else{
+                ipField.setText("");
             }
         });
 
