@@ -11,6 +11,7 @@
 <VBox xmlns:fx="http://javafx.com/fxml/1">
 	<!-- TODO Add Nodes -->
 	<TextArea
+			VBox.vgrow="ALWAYS"
 		fx:id="msgHistory"
 		prefColumnCount="40"
 		prefRowCount="35"
