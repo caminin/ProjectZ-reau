@@ -4,31 +4,38 @@ import java.net.*;
  * Created by caminin on 07/02/17.
  */
 public class Message {
-    private int port= 7000;
-    private int port2= 7001;
+    private int port_reception = 7000;
+    private int port_envoi= 7000;
     private boolean debug=true;
     private DatagramSocket mDataGramSocket=null;
+    private String ip;
 
-    public Message() {
+    public Message(String ip) {
+        this.ip=ip;
         try {
             mDataGramSocket = new DatagramSocket(null);
             mDataGramSocket.setBroadcast(true);
-            mDataGramSocket.bind(new InetSocketAddress(port));
+            mDataGramSocket.bind(new InetSocketAddress(port_reception));
+            if(ip.equals("localhost")){//Si on est en local, alors le port d'envoi n'est pas le même que le port de réception
+                port_envoi++;
+            }
         } catch (SocketException e) {
-            Log.debug("Le port est déjà pris",debug);
-            port++;
-            port2--;
+            Log.debug("Le port_reception est déjà pris",debug);
+            port_reception++;
+            //on bouge pas port envoi
             try {
                 mDataGramSocket = new DatagramSocket(null);
                 mDataGramSocket.setBroadcast(true);
-                mDataGramSocket.bind(new InetSocketAddress(port));
+                mDataGramSocket.bind(new InetSocketAddress(port_reception));
             } catch (SocketException e1) {
                 Log.debug("Plus de ports de libre",debug);
             }
         }
+
+        Log.debug("J'envoie à "+ip+ " au port "+port_envoi+ " et je reçois au port "+ port_reception,debug);
     }
 
-    public void send(String message,String ip){
+    public void send(String message){
         SendThread send=new SendThread(message,ip);
         send.start();
     }
@@ -52,7 +59,7 @@ public class Message {
                 local = InetAddress.getByName(ip);
                 int msg_length = message.length();
                 byte[] message_byte = message.getBytes();
-                DatagramPacket p = new DatagramPacket(message_byte, msg_length, local, port2);
+                DatagramPacket p = new DatagramPacket(message_byte, msg_length, local, port_envoi);
                 mDataGramSocket.send(p);
                 Log.debug("UDP envoyé",debug);
             } catch (Exception e) {
