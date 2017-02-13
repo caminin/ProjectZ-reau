@@ -87,6 +87,7 @@ public class Secured_Client extends Application {
     public void handleMessage(String message){
         /* réception du message d'initialisation contenant la clé publique de l'interlocuteur */
         if(message.contains(":init://")){
+            Log.debug("J'ai reçu une clé publique",debug);
             String name_and_stringKey = message.replace(":init://","");
             String array_string[]=name_and_stringKey.split(":");
             String stringKey=array_string[1];
@@ -94,12 +95,14 @@ public class Secured_Client extends Application {
             publicKey = new PublicKey(new BigInteger(splitedKey[0].trim()), new BigInteger(splitedKey[1].trim()));
         }
         else if(message.contains(":ask://")){
+            Log.debug("J'ai reçu une demande de clé publique",debug);
             sendPublicKey();
             Log.debug("Je lui envoie ma public key",debug);
         }
 
         /* décrypte les autres messages et les affiche */
         else{
+            Log.debug("J'ai reçu un message",debug);
             String name=message.substring(0,message.indexOf(":"));
             String crypted_message=message.substring(message.indexOf(":")+1);
             String uncrypted_message;
@@ -168,7 +171,6 @@ public class Secured_Client extends Application {
                     }
                     else{//Si on n'a pas la clé, on la demande
                         askPublicKey();
-                        //TODO tell the man that you can't send a message, so he needs to wait (add a while(publickey==null){Thread.sleep(1000);}) ?
                     }
 
                 }
