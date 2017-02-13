@@ -38,15 +38,13 @@ public class Secured_Client extends Application {
 
     private String client_name;
     private Message message;
-    private String myIp="localhost";
+    private String other_ip ="localhost";
 
     private PublicKey publicKey;   // clé publique de l'interlocuteur utilisée pour crypter les messages que l'on envoit
     private PrivateKey privateKey; // clé privé servant à décrypter les messages envoyés par l'interlocuteur
 
 
     public Secured_Client(){
-        message=new Message();
-        message.receive(this);
     }
 
     public static void main(String args[]){
@@ -61,8 +59,14 @@ public class Secured_Client extends Application {
         }
     }
 
+    public void newClient(String ip){
+        other_ip=ip;
+        message=new Message(other_ip);
+        message.receive(this);
+    }
+
     public void sendMessage(String message){
-        this.message.send(message,myIp);
+        this.message.send(message);
     }
 
     public void sendPublicKey(){
@@ -144,9 +148,9 @@ public class Secured_Client extends Application {
                 /* génération des clés et envoie du message d'initilisation contenant la clé publique */
                 if(nameField.getText()!= null) {
                     client_name = nameField.getText();
-                    myIp = ipField.getText().toString();
+                    newClient(ipField.getText());
+                    Log.debug(other_ip,debug);
                     sendPublicKey();
-
                     mainStage.setScene(chatScene);
                 }
             }
@@ -180,8 +184,6 @@ public class Secured_Client extends Application {
                 ipField.setText("");
             }
         });
-
-        //TODO Handle a way to change the ip adress
     }
 
 

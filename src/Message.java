@@ -4,9 +4,9 @@ import java.net.*;
  * Created by caminin on 07/02/17.
  */
 public class Message {
+    private boolean debug=true;
     private int port_reception = 7000;
     private int port_envoi= 7000;
-    private boolean debug=true;
     private DatagramSocket mDataGramSocket=null;
     private String ip;
 
