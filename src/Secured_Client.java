@@ -10,6 +10,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
 
 import java.math.BigInteger;
@@ -29,7 +34,7 @@ public class Secured_Client extends Application {
 
     @FXML
     private TextField nameField;
-    @FXML private TextArea msgHistory;
+    @FXML private TextFlow msgHistory;
     @FXML private TextField msgField;
     @FXML private Button nameButton;
     @FXML private Button sendButton;
@@ -114,8 +119,15 @@ public class Secured_Client extends Application {
                 sendPublicKey();
                 uncrypted_message=crypted_message;
             }
-
-            msgHistory.appendText(name+":"+uncrypted_message+"\n");
+            Text txt = new Text(name+": "+uncrypted_message+"\n");
+            txt.setFill(Color.GREEN);
+            txt.setFont(Font.font(14));
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    msgHistory.getChildren().add(txt);
+                }
+            });
         }
 
     }
@@ -140,7 +152,7 @@ public class Secured_Client extends Application {
         localCheck = (CheckBox)nameScene.lookup("#local");
         ipField = (TextField)nameScene.lookup("#ipField");
 
-        msgHistory  = (TextArea)chatScene.lookup("#msgHistory");
+        msgHistory  = (TextFlow) chatScene.lookup("#msgHistory");
         msgField = (TextField)chatScene.lookup("#msgField");
         sendButton = (Button)chatScene.lookup("#sendButton");
 
@@ -164,8 +176,11 @@ public class Secured_Client extends Application {
                 String message = msgField.getText();
                 if(!message.isEmpty()){
                     if(publicKey!=null){
-                        msgHistory.appendText("me :"+message+"\n");
-                        message=PublicKey.BigIntergerToString(publicKey.encryption(message));
+                        Text txt = new Text("me: "+message+"\n");
+                        txt.setFont(Font.font(14));
+                        txt.setFill(Color.BLUE);
+                        msgHistory.getChildren().add(txt);
+                        message = PublicKey.BigIntergerToString(publicKey.encryption(message));
                         msgField.setText("");
                         sendMessage(client_name +":"+message);
                     }

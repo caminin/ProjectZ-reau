@@ -88,7 +88,7 @@ public class Message {
                             mDataGramSocket.receive(p);
                             Log.debug("UDP reçu",debug);
                             text = new String(message, 0, p.getLength());
-                            client.handleMessage(text+"\n");
+                            client.handleMessage(text);
                         } catch (Exception e) {
                             e.printStackTrace();
                             Log.debug("socket fermé",debug);

@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.control.ScrollPane?>
 <VBox xmlns:fx="http://javafx.com/fxml/1">
 	<!-- TODO Add Nodes -->
-	<TextArea
-		fx:id="msgHistory"
-		prefColumnCount="40"
-		prefRowCount="35"
-		disable="true"
-	/>
+        <TextFlow
+                VBox.vgrow="ALWAYS"
+            fx:id="msgHistory"
+                prefWidth="250"
+                prefHeight="300"
+        />
 	<HBox>
 		<TextField
 			fx:id="msgField"
