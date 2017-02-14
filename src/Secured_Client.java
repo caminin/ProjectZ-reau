@@ -41,6 +41,8 @@ public class Secured_Client extends Application {
     @FXML private CheckBox localCheck;
     @FXML private TextField ipField;
 
+
+    private Security security;
     private String client_name;
     private Message message;
     private String other_ip ="localhost";
@@ -67,8 +69,7 @@ public class Secured_Client extends Application {
      * Envoie la clé publique à l'adresse ip sauvegardé au départ dans other_ip
      */
     public void sendPublicKey(){
-        Security security = new Security();
-        security.genKeys();
+
         privateKey = security.getPrivateKey();
         sendMessage(":init://"+ client_name +":"+security.getPublicKey().getN().toString()+"/"+security.getPublicKey().getE());
     }
@@ -187,7 +188,11 @@ public class Secured_Client extends Application {
                     Log.debug("Génération des clés publiques et privées en cours",release);
                     newClient(ipField.getText());
                     Log.debug(other_ip,debug);
+
+                    security= new Security();
+                    security.genKeys();
                     sendPublicKey();
+
                     Log.debug("Génération finie et envoi de la clé effectué\n",release);
                     mainStage.setScene(chatScene);
                 }
