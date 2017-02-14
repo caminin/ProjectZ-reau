@@ -8,17 +8,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
 
 import java.math.BigInteger;
-
 import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
 
 /**
@@ -129,6 +128,27 @@ public class Secured_Client extends Application {
 
     }
 
+    public void sendHandler(){
+        String message = msgField.getText();
+        if(!message.isEmpty()){
+            if(publicKey!=null){
+                Text txt = new Text("me: "+message+"\n");
+                txt.setFont(Font.font(14));
+                txt.setFill(Color.BLUE);
+                msgHistory.getChildren().add(txt);
+                message = PublicKey.BigIntergerToString(publicKey.encryption(message));
+                msgField.setText("");
+                sendMessage(client_name +":"+message);
+            }
+            else{//Si on n'a pas la clé, on la demande
+                askPublicKey();
+                //TODO tell the man that you can't send a message, so he needs to wait (add a while(publickey==null){Thread.sleep(1000);}) ?
+            }
+
+        }
+
+    }
+
     /**
      * Créé l'interface et implémente les handler
      * @param mainStage, fenêtre principale
@@ -170,24 +190,16 @@ public class Secured_Client extends Application {
 
         sendButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                String message = msgField.getText();
-                if(!message.isEmpty()){
-                    if(publicKey!=null){
-                        Text txt = new Text("me: "+message+"\n");
-                        txt.setFont(Font.font(14));
-                        txt.setFill(Color.BLUE);
-                        msgHistory.getChildren().add(txt);
-                        message = PublicKey.BigIntergerToString(publicKey.encryption(message));
-                        msgField.setText("");
-                        sendMessage(client_name +":"+message);
-                    }
-                    else{//Si on n'a pas la clé, on la demande
-                        askPublicKey();
-                        //TODO tell the man that you can't send a message, so he needs to wait (add a while(publickey==null){Thread.sleep(1000);}) ?
-                    }
+                sendHandler();
+            }
+        });
 
+        chatScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER){
+                    sendHandler();
                 }
-
             }
         });
 
