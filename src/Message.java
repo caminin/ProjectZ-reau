@@ -4,7 +4,8 @@ import java.net.*;
  * Created by caminin on 07/02/17.
  */
 public class Message {
-    private boolean debug=true;
+    private static boolean debug=false;
+    private static boolean release=true;
     private int port_reception = 7000;
     private int port_envoi= 7000;
     private DatagramSocket mDataGramSocket=null;
@@ -32,7 +33,7 @@ public class Message {
             }
         }
 
-        Log.debug("J'envoie à "+ip+ " au port "+port_envoi+ " et je reçois au port "+ port_reception,debug);
+        Log.debug("J'envoie à "+ip+ " au port "+port_envoi+ " et je reçois au port "+ port_reception,release);
     }
 
     public void send(String message){
@@ -91,7 +92,7 @@ public class Message {
                             client.handleMessage(text);
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Log.debug("socket fermé",debug);
+                            Log.debug("socket fermé",release);
                             Thread.sleep(10000);
                         }
                     }

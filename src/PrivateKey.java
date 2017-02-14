@@ -12,13 +12,17 @@ public class PrivateKey extends Key {
         this.u = u;
     }
 
+    /**
+     * Décrypte un message crypté sous forme de tableau de BigInteger, en utilisant la clé privée (u et n)
+     * @param message le message à décrypter
+     * @return le message décryppté
+     */
     public String decryption(BigInteger[] message) {
         String out = new String("");
         for (int i = 0; i < message.length; i++) {
             Log.debug(String.valueOf(Character.toChars(message[i].modPow(u, n).intValue())), DEBUG);
             out += String.valueOf(Character.toChars(message[i].modPow(u, n).intValue()));
         }
-        System.out.println(out);
         return out;
     }
 
@@ -37,6 +41,11 @@ public class PrivateKey extends Key {
     }
 
 
+    /**
+     * Vérifie si le message est crypté ou non
+     * @param bigIntegerArray
+     * @return
+     */
     public static boolean isEncrypted(String bigIntegerArray){
         String stringArray[]=bigIntegerArray.split("/") ;
         BigInteger res;

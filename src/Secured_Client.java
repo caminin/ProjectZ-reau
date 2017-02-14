@@ -25,7 +25,8 @@ import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
  * Created by caminin on 31/01/17.
  */
 public class Secured_Client extends Application {
-    private static boolean debug=true;
+    private static boolean debug=false;
+    private static boolean release=true;
 
     // chat GUI components
     private Stage mainStage;
@@ -48,21 +49,10 @@ public class Secured_Client extends Application {
     private PublicKey publicKey;   // clé publique de l'interlocuteur utilisée pour crypter les messages que l'on envoit
     private PrivateKey privateKey; // clé privé servant à décrypter les messages envoyés par l'interlocuteur
 
-
-    public Secured_Client(){
-    }
-
     public static void main(String args[]){
         Application.launch(args);
     }
 
-    @FXML protected void handleSendButton(ActionEvent event){
-        if(nameField.getText()!= null) {
-            client_name = nameField.getText();
-            sendMessage(client_name);
-            mainStage.setScene(chatScene);
-        }
-    }
 
     public void newClient(String ip){
         other_ip=ip;
@@ -74,6 +64,9 @@ public class Secured_Client extends Application {
         this.message.send(message);
     }
 
+    /**
+     * Envoie la clé publique à l'adresse ip sauvegardé au départ dans other_ip
+     */
     public void sendPublicKey(){
         Security security = new Security();
         security.genKeys();
@@ -81,6 +74,9 @@ public class Secured_Client extends Application {
         sendMessage(":init://"+ client_name +":"+security.getPublicKey().getN().toString()+"/"+security.getPublicKey().getE());
     }
 
+    /**
+     * Envoie la chaîne de caractère pour demander la clé publique du destinataire
+     */
     public void askPublicKey(){
         sendMessage(":ask://");
     }
@@ -92,30 +88,32 @@ public class Secured_Client extends Application {
     public void handleMessage(String message){
         /* réception du message d'initialisation contenant la clé publique de l'interlocuteur */
         if(message.contains(":init://")){
-            Log.debug("J'ai reçu une clé publique",debug);
+            Log.debug("J'ai reçu une clé publique\n",release);
             String name_and_stringKey = message.replace(":init://","");
             String array_string[]=name_and_stringKey.split(":");
             String stringKey=array_string[1];
             String[] splitedKey = stringKey.split("/");
             publicKey = new PublicKey(new BigInteger(splitedKey[0].trim()), new BigInteger(splitedKey[1].trim()));
         }
+        //Si c'est une demande pour la clé publique, on lui envoie
         else if(message.contains(":ask://")){
-            Log.debug("J'ai reçu une demande de clé publique",debug);
+            Log.debug("J'ai reçu une demande de clé publique",release);
             sendPublicKey();
-            Log.debug("Je lui envoie ma public key",debug);
+            Log.debug("Je lui envoie ma public key\n",release);
         }
 
         /* décrypte les autres messages et les affiche */
         else{
-            Log.debug("J'ai reçu un message",debug);
             String name=message.substring(0,message.indexOf(":"));
             String crypted_message=message.substring(message.indexOf(":")+1);
             String uncrypted_message;
             if(PrivateKey.isEncrypted(crypted_message)){
+                Log.debug("J'ai reçu un message qui ressemble à ça : "+crypted_message.substring(0,50)+"... (coupé à 50 caractères)",release);
                 uncrypted_message= privateKey.decryption(PrivateKey.splitString(crypted_message));
+                Log.debug("Après décryptage, le message ressemble à ça : " + uncrypted_message+"\n",release);
             }
             else{
-                Log.debug("le message n'est pas encrypté",debug);
+                Log.debug("Le message n'est pas encrypté",debug);
                 sendPublicKey();
                 uncrypted_message=crypted_message;
             }
@@ -163,9 +161,11 @@ public class Secured_Client extends Application {
                 /* génération des clés et envoie du message d'initilisation contenant la clé publique */
                 if(nameField.getText()!= null) {
                     client_name = nameField.getText();
+                    Log.debug("Génération des clés publiques et privées en cours",release);
                     newClient(ipField.getText());
                     Log.debug(other_ip,debug);
                     sendPublicKey();
+                    Log.debug("Génération finie et envoie de la clé effectué\n",release);
                     mainStage.setScene(chatScene);
                 }
             }
@@ -175,16 +175,20 @@ public class Secured_Client extends Application {
             public void handle(ActionEvent event) {
                 String message = msgField.getText();
                 if(!message.isEmpty()){
+                    Log.debug("J'envoie le message : "+message,release);
                     if(publicKey!=null){
+                        Log.debug("J'ai la clé publique, je commence l'encryptage",release);
                         Text txt = new Text("me: "+message+"\n");
                         txt.setFont(Font.font(14));
                         txt.setFill(Color.BLUE);
                         msgHistory.getChildren().add(txt);
                         message = PublicKey.BigIntergerToString(publicKey.encryption(message));
+                        Log.debug("J'ai fini l'encryptage, j'envoie le message\n",release);
                         msgField.setText("");
                         sendMessage(client_name +":"+message);
                     }
                     else{//Si on n'a pas la clé, on la demande
+                        Log.debug("Je n'ai pas la clé publique, j'en fais la demande\n",release);
                         askPublicKey();
                     }
 
