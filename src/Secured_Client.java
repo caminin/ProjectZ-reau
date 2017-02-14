@@ -188,7 +188,7 @@ public class Secured_Client extends Application {
                     newClient(ipField.getText());
                     Log.debug(other_ip,debug);
                     sendPublicKey();
-                    Log.debug("Génération finie et envoie de la clé effectué\n",release);
+                    Log.debug("Génération finie et envoi de la clé effectué\n",release);
                     mainStage.setScene(chatScene);
                 }
             }
